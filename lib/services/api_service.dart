@@ -57,6 +57,39 @@ class ApiService {
   }
 
   // -------------------------------------------------------------------------
+  // POST /api/precios/consulta
+  // -------------------------------------------------------------------------
+  Future<String> consultarPrecios(
+    String query,
+    List<Map<String, String>> historial,
+  ) async {
+    final uri = Uri.parse('$baseUrl/precios/consulta');
+    final body = jsonEncode({'query': query, 'historial': historial});
+
+    try {
+      final response = await http.post(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Error al consultar precios: status ${response.statusCode}',
+        );
+      }
+
+      final Map<String, dynamic> data =
+          jsonDecode(response.body) as Map<String, dynamic>;
+      return data['reply'] as String? ?? 'Sin respuesta.';
+    } on Exception {
+      rethrow;
+    } catch (e) {
+      throw Exception('Error inesperado al consultar precios: $e');
+    }
+  }
+
+  // -------------------------------------------------------------------------
   // POST /api/gastos
   // -------------------------------------------------------------------------
   Future<bool> registrarGasto({

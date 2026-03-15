@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'providers/wallet_provider.dart';
 import 'screens/dashboard/dashboard_screen.dart';
 import 'screens/my_wallet/my_wallet_screen.dart';
+import 'screens/precios/precios_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -42,7 +43,7 @@ class _MainShellState extends State<MainShell> {
   static const List<Widget> _screens = [
     DashboardScreen(),
     MyWalletScreen(),
-    _HistorialPlaceholder(),
+    PreciosScreen(),
   ];
 
   @override
@@ -74,9 +75,9 @@ class _MainShellState extends State<MainShell> {
             label: 'Mi Billetera',
           ),
           NavigationDestination(
-            icon: Icon(Icons.history_outlined),
-            selectedIcon: Icon(Icons.history),
-            label: 'Historial',
+            icon: Icon(Icons.local_offer_outlined),
+            selectedIcon: Icon(Icons.local_offer),
+            label: 'Precios',
           ),
         ],
       ),
@@ -84,15 +85,3 @@ class _MainShellState extends State<MainShell> {
   }
 }
 
-class _HistorialPlaceholder extends StatelessWidget {
-  const _HistorialPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Historial próximamente'),
-      ),
-    );
-  }
-}

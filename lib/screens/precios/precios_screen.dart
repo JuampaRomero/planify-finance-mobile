@@ -339,7 +339,7 @@ class _PreciosScreenState extends State<PreciosScreen> {
       if (direccion.isEmpty) direccion = 'Direccion no disponible';
 
       final routeInfo =
-          await _osrmTiempo(lat, lng, placeLat!, placeLng!);
+          await _osrmTiempo(lat, lng, placeLat, placeLng);
       if (routeInfo != null) {
         distKm = routeInfo['distancia_km']!;
         tiempoAutoMin =

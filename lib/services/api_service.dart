@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/user.dart';
 import '../models/dashboard_data.dart';
+import '../models/gasto.dart';
 
 class ApiService {
   static const String baseUrl = 'https://planifynance.up.railway.app/api';
@@ -53,6 +54,70 @@ class ApiService {
       rethrow;
     } catch (e) {
       throw Exception('Error inesperado al obtener el dashboard: $e');
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // GET /api/users/:userId/historial
+  // -------------------------------------------------------------------------
+  Future<HistorialResponse> getHistorial({
+    required int userId,
+    int page = 1,
+    int limit = 20,
+    String? categoria,
+    String? tipo,
+    String? search,
+  }) async {
+    final params = <String, String>{
+      'page': page.toString(),
+      'limit': limit.toString(),
+    };
+    if (categoria != null && categoria.isNotEmpty) {
+      params['categoria'] = categoria;
+    }
+    if (tipo != null && tipo.isNotEmpty) {
+      params['tipo'] = tipo;
+    }
+    if (search != null && search.isNotEmpty) {
+      params['search'] = search;
+    }
+
+    final uri = Uri.parse('$baseUrl/users/$userId/historial')
+        .replace(queryParameters: params);
+
+    try {
+      final response = await http.get(uri);
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Error al obtener historial: status ${response.statusCode}',
+        );
+      }
+      final Map<String, dynamic> data =
+          jsonDecode(response.body) as Map<String, dynamic>;
+      return HistorialResponse.fromJson(data);
+    } on Exception {
+      rethrow;
+    } catch (e) {
+      throw Exception('Error inesperado al obtener historial: $e');
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // DELETE /api/gastos/:id
+  // -------------------------------------------------------------------------
+  Future<void> deleteGasto(int gastoId) async {
+    final uri = Uri.parse('$baseUrl/gastos/$gastoId');
+    try {
+      final response = await http.delete(uri);
+      if (response.statusCode != 200 && response.statusCode != 204) {
+        throw Exception(
+          'Error al eliminar gasto: status ${response.statusCode}',
+        );
+      }
+    } on Exception {
+      rethrow;
+    } catch (e) {
+      throw Exception('Error inesperado al eliminar gasto: $e');
     }
   }
 

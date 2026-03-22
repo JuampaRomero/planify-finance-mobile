@@ -5,6 +5,7 @@ import 'providers/wallet_provider.dart';
 import 'screens/dashboard/dashboard_screen.dart';
 import 'screens/my_wallet/my_wallet_screen.dart';
 import 'screens/precios/precios_screen.dart';
+import 'screens/historial/historial_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -43,6 +44,7 @@ class _MainShellState extends State<MainShell> {
   static const List<Widget> _screens = [
     DashboardScreen(),
     MyWalletScreen(),
+    HistorialScreen(),
     PreciosScreen(),
   ];
 
@@ -75,6 +77,11 @@ class _MainShellState extends State<MainShell> {
             label: 'Mi Billetera',
           ),
           NavigationDestination(
+            icon: Icon(Icons.history_outlined),
+            selectedIcon: Icon(Icons.history),
+            label: 'Historial',
+          ),
+          NavigationDestination(
             icon: Icon(Icons.local_offer_outlined),
             selectedIcon: Icon(Icons.local_offer),
             label: 'Precios',
@@ -84,4 +91,3 @@ class _MainShellState extends State<MainShell> {
     );
   }
 }
-
